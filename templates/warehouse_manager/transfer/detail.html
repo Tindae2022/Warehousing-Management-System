@@ -1,0 +1,55 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block page_content %}
+    <style>
+   
+.glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-card .title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.glass-card strong {
+  display: block;
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+
+.glass-card p,
+.glass-card span {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+</style>
+
+    
+<div class="container">
+  <div class="box glass-card">
+    <span class="title">Transfer Detail</span>
+    <div>
+      <strong>{{ transfer.product.name }}</strong>
+      <p>Tracking Number: {{ transfer.tracking_number }}</p>
+      <span>From: {{ transfer.from_warehouse.name }}</span><br>
+      <span>To: {{ transfer.to_warehouse.name }}</span><br>
+      <span>Quantity: {{ transfer.transfer_quantity }}</span><br>
+        <span>Total Cost: Nle{{ transfer.total_price }}</span><br>
+        
+      <span>Sent Date: {{ transfer.sent_date }}</span><br>
+      <span>Received Date: {{ transfer.received_date|default:"N/A" }}</span><br>
+      <span>Shipping Company: {{ transfer.shipping_company }}</span>
+    </div>
+  </div>
+</div>
+{% endblock %}

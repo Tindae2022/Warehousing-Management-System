@@ -1,0 +1,430 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Bulma Admin | Free Admin Template By @nafplann</title>
+
+        <meta charset="UTF-8">
+        <meta name="description" content="Free Admin Dashboard Template Build with Bulma.io By nafplann">
+        <meta name="keywords" content="Bulma,CSS,Admin,Template,Free,Download">
+        <meta name="language" content="en-EN">
+        <meta name="author" content="Abdul Manaf">
+        <meta name="google-adsense-account" content="ca-pub-7864475889913507">
+
+        <link href="https://fonts.googleapis.com/icon?family=Poppins" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/font-awesome-line-awesome/css/all.min.css" integrity="sha512-dC0G5HMA6hLr/E1TM623RN6qK+sL8sz5vB+Uc68J7cBon68bMfKcvbkg6OqlfGHo1nMmcCxO5AinnRTDhWbWsA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+                <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    
+    </head>
+    <body>
+        <!-- START NAV -->
+        <nav class="navbar columns is-fixed-top" role="navigation" aria-label="main navigation" id="app-header">
+    <div class="navbar-brand column is-2 is-paddingless">
+        <a class="navbar-item" href="#">
+            WAREHOUSE <br> MANAGER
+        </a>
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="touchMenu">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+  
+    <div id="navMenu" class="navbar-menu column is-hidden-touch">
+        <div class="navbar-end">
+           <div class="navbar-item dropdown is-right">
+    <div class="dropdown-trigger">
+        <a class="dropdown-trigger button is-white" aria-haspopup="true" aria-controls="notification-dropdown">
+            <span class="icon">
+                <i class="fa fa-lg fa-bell"></i>
+            </span>
+            <span class="badge">{{ notification_count }}</span>
+        </a>
+    </div>
+               
+    <div class="dropdown-menu" id="notification-dropdown" role="menu">
+        <div class="dropdown-content">
+            <a href="{% url 'notifications' %}" class="dropdown-item">View Notifications</a>
+        </div>
+    </div>
+</div>
+
+
+            <div class="navbar-item">
+                <a class="button is-white app-logout" href="#">
+                    <span class="icon">
+                        <i class="fa fa-lg fa-power-off"></i>
+                    </span>
+                </a>
+            </div>
+            <div class="navbar-item has-dropdown is-hoverable">
+               <a class="navbar-link">
+    <figure class="image avatar is-32x32">
+        <img class="is-rounded" src="{% static 'theme/images/w_image' %}" alt="Profile Picture">
+    </figure>
+    &nbsp; Hi, Warehouse Manager
+                   
+</a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item">
+                        My Profile
+                    </a>
+                    <a class="navbar-item">
+                        Settings
+                    </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item app-logout">
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+        <!-- END NAV -->
+
+        <div class="columns" id="app-content">
+            <div class="column is-2 is-fullheight is-hidden-touch" id="sidebar">
+    <aside class="menu">
+        <p class="menu-label is-hidden-touch">
+            General
+        </p>
+        <ul class="menu-list">
+            <li>
+                <a class="is-active" href="{% url 'dashboard' %}"> 
+                    <span class="icon">
+                        <i class="fa fa-home"></i>
+                    </span> Dashboard
+                </a>
+            </li>
+            <li>
+                <a class="" href="{% url 'inventory_index' %}"> 
+                    <span class="icon">
+                        <i class="fa fa-edit"></i>
+                    </span> Inventory
+                </a>
+            </li>
+            <li>
+                <a class="" href="{% url 'order_index' %}"> 
+                    <span class="icon">
+                        <i class="fa fa-desktop"></i>
+                    </span> Orders
+                </a>
+            </li>
+            
+            <li>
+                <a>
+                    <span class="icon">
+                        <i class="fa fa-list"></i>
+                    </span> Management
+                </a>
+                <ul class="submenu">
+                   <li><a href="{% url 'product_warehouse' %}">Products</a></li>
+                   <li><a href="{% url 'product_category_index' %}">Product Categories</a></li>
+                    <li><a href="{% url 'supplier_index' %}">Suppliers</a></li> 
+                   <li><a href="{% url 'warehouse_index' %}">Warehouses</a></li> 
+                    <li><a href="{% url 'delivery_index' %}">Deliveries</a></li>
+                   <li><a href="{% url 'location_index' %}">Locations</a></li>
+                    <li><a href="{% url 'transfer_index' %}">Transfers</a></li>
+                    
+                    
+                </ul>
+            </li>
+            <li>
+                <a>
+                    <span class="icon">
+                        <i class="fa fa-list"></i>
+                    </span> Reports
+                </a>
+                <ul class="submenu">
+                    <li><a href="#">Daily</a></li>
+                    <li><a href="#">Weekly</a></li>
+                    <li><a href="#">Monthly</a></li>
+                    <li><a href="{% url 'yearly_report' %}">Yearly</a></li> 
+                </ul>
+            </li>
+            <li>
+                
+                <a>
+                    <span class="icon">
+                        <i class="fa fa-list"></i>
+                    </span> Users
+                </a>
+                <ul class="submenu">
+                    <li><a href="{% url 'user_index' %}">All</a></li>
+                    <li><a href="{% url 'customer_view' %}">Customers</a></li> 
+                    <li><a href="{% url 'sales_manager_index' %}">Sales Managers</a></li>
+                    <li><a href="{% url 'warehouse_manager_index' %}">Warehouse Managers</a></li>
+                </ul>
+            </li>
+            
+             
+            
+        </ul>
+
+        <p class="menu-label is-hidden-touch">
+            
+        </p>
+        <ul class="menu-list">
+            <li>
+                <a class="" href="#">
+                    <span class="icon">
+                        <i class="fa fa-lock"></i>
+                    </span> Logout
+                </a>
+            </li>
+     <!-------       <a href="{% url 'accounts:register_sales_manager' %}" class="navbar-item">Sales Manager</a>
+              <a href="{% url 'accounts:register_warehouse_manager' %}" class="navbar-item">Warehouse Manager</a>  ---->
+            
+        </ul>
+    </aside>
+</div>
+        
+{% block page_content %}
+            <div class="column is-10" id="page-content">
+                    <div class="content-header">
+        <h4 class="title is-4">Dashboard</h4>
+        <span class="separator"></span>
+        <nav class="breadcrumb has-bullet-separator" aria-label="breadcrumbs">
+            
+        </nav>
+    </div>
+<section class="section">
+        <div class="container">
+            <h1 class="title">Warehouse Management Dashboard</h1>
+
+            <div class="columns">
+                <div class="column" >
+                    <div class="box" style="background-color: #01153e; color: white; font-weight: bold" >
+                        <h2 class="subtitle" style="color: white; font-weight: bold">{{ product_title }}</h2>
+                        <p>{{ total_product }}</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="box" style="background-color: #01153e; color: white; font-weight: bold">
+                        <h2 class="subtitle" style="color: white; font-weight: bold"> {{ total_stock_title }}</h2>
+                        <p> Nle{{ stock_value }}</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="box" style="background-color: #01153e; color: white; font-weight: bold">
+                        <h2 class="subtitle" style="color: white; font-weight: bold">Orders</h2>
+                        <p>{{ total_order }}</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="box" style="background-color: #01153e; color: white; font-weight: bold">
+                        <h2 class="subtitle" style="color: white; font-weight: bold">Warehouses</h2>
+                        <p>{{ total_warehouses }}</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="box" style="background-color: #01153e; color: white; font-weight: bold">
+                        <h2 class="subtitle" style="color: white; font-weight: bold">Customers</h2>
+                        <p>{{ total_customers }}</p>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="columns">
+                
+                <div class="column">
+                    <div class="box" style="background-color: #01153e; color: white; font-weight: bold">
+                        <h2 class="subtitle" style="color: white; font-weight: bold"> C. Deliveries</h2>
+                        <p> {{ total_completed_deliveries }}</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="box" style="background-color: #01153e; color: white; font-weight: bold">
+                        <h2 class="subtitle" style="color: white; font-weight: bold">Pending Deliveries</h2>
+                        <p>{{ total_pending_deliveries }}</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="box" style="background-color: #01153e; color: white; font-weight: bold">
+                        <h2 class="subtitle" style="color: white; font-weight: bold">Suppliers</h2>
+                        <p>{{ total_suppliers }}</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="box" style="background-color: #01153e; color: white; font-weight: bold">
+                        <h2 class="subtitle" style="color: white; font-weight: bold">Sales Manager</h2>
+                        <p>{{ total_sales_manager }}</p>
+                    </div>
+                </div>
+                
+            </div>
+            
+
+            <div class="columns">
+                <div class="column">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+<br>
+ <h1 class="title is-center">Pending Deliveries</h1>
+
+{% if pending_deliveries %}
+            <div class="column is-full" style="margin: 20px;">
+                <table class="table is-bordered is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Customer Name</th>
+                            <th>Sales Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for delivery in pending_deliveries %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ delivery.order.customer.first_name }} {{ delivery.order.customer.last_name }}</td>
+                                <td>{{ delivery.sales_date }}</td>
+                                <td>{{ delivery.status }}</td>
+                                <td>
+                                    <div class="button-group">
+                                        <a href="{% url 'delivery_detail' delivery.pk %}" class="button is-small is-primary">
+                                            <span class="icon"><i class="fas fa-eye"></i></span>
+                                        </a>
+                                        <a href="{% url 'delivery_update' delivery.pk %}" class="button is-small is-info">
+                                            <span class="icon"><i class="fas fa-edit"></i></span>
+                                        </a>
+                                        <a href="{% url 'delivery_delete' delivery.pk %}" class="button is-small is-danger jb-modal" data-target="sample-modal">
+                                            <span class="icon"><i class="fas fa-trash-alt"></i></span>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+<br>
+<h1 class="title is-center">Recent Orders</h1>
+
+{% if recent_orders %}
+            <div class="column is-full" style="margin: 20px;">
+                <table class="table is-bordered is-fullwidth">
+                    <thead>
+                       <tr>
+                            <th>No.</th>
+                            
+                            <th>Customer's Name</th>
+                            <th>Oder Date</th>
+                            <th>Actions</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in recent_orders %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                
+                                <td>{{ order.customer.first_name}} {{ order.customer.last_name}}</td>
+                                <td>{{ order.order_date }}</td>
+                                
+                                
+                               <td>
+    <div class="button-group">
+        <a href="{% url 'order_detail' order.pk %}" class="button is-small is-primary">
+                                            <span class="icon"><i class="fas fa-eye"></i></span>
+                                        </a>
+        <a href="{% url 'order_delete' order.pk %}" class="button is-small is-danger jb-modal" data-target="sample-modal">
+            <span class="icon"><i class="fas fa-trash-alt"></i></span>
+        </a>
+        <a href="{% url 'order_update' order.pk %}" class="button is-small is-info">
+            <span class="icon"><i class="fas fa-edit"></i></span>
+        </a>
+        
+    </div>
+</td>
+
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+{% endif %}
+    </div>
+   
+    
+    </section>
+                {% endblock %}
+
+            </div>
+        </div>
+
+        <script src="{% static 'js/app.js' %}"></script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js" integrity="sha512-3PRVLmoBYuBDbCEojg5qdmd9UhkPiyoczSFYjnLhFb2KAFsWWEMlAPt0olX1Nv7zGhDfhGEVkXsu51a55nlYmw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryTotals = {{ category_totals|safe }};
+
+            const labels = categoryTotals.map(item => item.category__name);
+            const data = categoryTotals.map(item => item.total_quantity);
+
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Total Quantity',
+                        data: data,
+                        backgroundColor:[
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+                        borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-4TVE6RNN41"></script>
+        
+    </body>
+
+<!-- Mirrored from bulma-admin.test/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Feb 2024 10:20:26 GMT -->
+</html>

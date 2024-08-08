@@ -1,0 +1,64 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block page_content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title">Update Supplier Record </h1>
+        <form method="POST" enctype="multipart/form-data" action="{% url 'supplier_update' object.pk %}">
+            {% csrf_token %}
+            <div class="columns">
+                <div class="column">
+                    
+                    <div class="field">
+                        <label class="label">Name</label>
+                        <div class="control">
+                            {{ form.name }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Address</label>
+                        <div class="control">
+                            {{ form.address }}
+                        </div>
+                    </div>
+
+                    
+
+                    
+                </div>
+                
+                <div class="column">
+                    
+
+                    
+
+                    
+                    
+
+                    
+                    
+                </div>
+            </div>
+
+            {% if form.errors %}
+                <div class="notification is-danger">
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <div class="field is-grouped">
+                <div class="control">
+                    <button type="submit" class="button is-primary"><i class="fas fa-save"></i>&nbsp;Save</button>
+                </div>
+                
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

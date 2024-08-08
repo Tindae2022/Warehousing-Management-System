@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block page_content %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+<div class="hero is-fullheight">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-5">
+                    <div class="box">
+                        <figure class="image is-128x128 is-inline-block">
+                            <img class="is-rounded" src="{% static 'theme/images/logo_fbm.jpeg' %}" alt="Logo">
+                        </figure>
+                        <form method="post" action="{% url 'accounts:login' %}">
+                            {% csrf_token %}
+                            <div class="field">
+                                {{ form.email.errors }}
+                                <div class="control has-icons-left">
+                                    {{ form.email|as_crispy_field }}
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                {{ form.password.errors }}
+                                <div class="control has-icons-left">
+                                    {{ form.password|as_crispy_field }}
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="checkbox">
+                                    <input type="checkbox"> Remember me
+                                </label>
+                            </div>
+                            <button type="submit" class="button is-info is-fullwidth">Login <i class="fa fa-sign-in" aria-hidden="true"></i></button>
+                        </form>
+                    </div>
+                    <p class="has-text-grey has-text-centered">
+                        <a href="{% url 'accounts:register_customer' %}">Sign Up</a> &nbsp;·&nbsp;
+                        <a href="#">Need Help?</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-foot">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="svg-wave">
+            <path fill="#009688" fill-opacity="1" d="M0,192L48,186.7C96,181,192,171,288,181.3C384,192,480,224,576,218.7C672,213,768,171,864,160C960,149,1056,171,1152,181.3C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+<h1>Messages</h1>
+<ul class="list-group">
+    {% for message in messages %}
+        <li class="list-group-item">
+            <p><strong>From:</strong> {{ message.sender.get_full_name }}</p>
+            <p>{{ message.content }}</p>
+            <small>{{ message.timestamp|date:"M d, Y H:i" }}</small>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

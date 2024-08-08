@@ -1,0 +1,319 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Warehouse Manager Dashboard</title>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="Warehouse Management Dashboard">
+    <meta name="keywords" content="Warehouse, Inventory, Orders, Logistics, Safety, Reports">
+    <meta name="author" content="Your Name">
+
+    <link href="https://fonts.googleapis.com/icon?family=Poppins" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/font-awesome-line-awesome/css/all.min.css" integrity="sha512-dC0G5HMA6hLr/E1TM623RN6qK+sL8sz5vB+Uc68J7cBon68bMfKcvbkg6OqlfGHo1nMmcCxO5AinnRTDhWbWsA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'theme/css/warehouse.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<!-- START NAV -->
+<nav class="navbar columns is-fixed-top" role="navigation" aria-label="main navigation" id="app-header">
+
+    <div class="navbar-brand column is-2 is-paddingless">
+        <a class="navbar-item" href="#">
+            WAREHOUSE <br> MANAGER
+        </a>
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="touchMenu">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div id="touchMenu">
+        <a class="navbar-item is-active" href="#">
+                
+                <span class="icon">
+                    <i class="fa fa-home"></i>
+                </span> Dashboard
+        </a>
+        <a class="navbar-item" href="#">
+                <span class="icon">
+                    <i class="fa fa-boxes"></i>
+                </span> Inventory
+        </a>
+        <a class="navbar-item" href="#">
+                <span class="icon">
+                    <i class="fa fa-shopping-cart"></i>
+                </span> Orders
+        </a>
+        <a class="navbar-item" href="#">
+                <span class="icon">
+                    <i class="fa fa-truck"></i>
+                </span> Logistics
+        </a>
+        <a class="navbar-item" href="#">
+                <span class="icon">
+                    <i class="fa fa-shield-alt"></i>
+                </span> Safety
+        </a>
+        <a class="navbar-item" href="#">
+                <span class="icon">
+                    <i class="fa fa-chart-line"></i>
+                </span> Reports
+        </a>
+    </div>
+
+    <div id="navMenu" class="navbar-menu column is-hidden-touch">
+        <div class="navbar-end">
+            <div class="navbar-item dropdown is-right">
+                <div class="dropdown-trigger">
+                    <a class="dropdown-trigger button is-white" aria-haspopup="true" aria-controls="notification-dropdown">
+                            <span class="icon">
+                                <i class="fa fa-lg fa-bell"></i>
+                            </span>
+                    </a>
+                </div>
+                <div class="dropdown-menu" id="notification-dropdown" role="menu">
+                    <div class="dropdown-content">
+                        <div class="dropdown-item">
+                            <p>You can insert <strong>any type of content</strong> within the dropdown menu.</p>
+                        </div>
+                        <hr class="dropdown-divider">
+                        <div class="dropdown-item">
+                            <p>You simply need to use a <code>&lt;div&gt;</code> instead.</p>
+                        </div>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">
+                            This is a link
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navbar-item">
+                <a class="button is-white app-logout" href="#">
+                        <span class="icon">
+                            <i class="fa fa-lg fa-power-off"></i>
+                        </span>
+                </a>
+            </div>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                    <figure class="image avatar is-32x32">
+                        <img class="is-rounded" src="{% static 'images/user1.png' %}">
+                    </figure>
+                    &nbsp; Hi, Warehouse Manager
+                </a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item" href="#">
+                        My Profile
+                    </a>
+                    <a class="navbar-item" href="#">
+                        Settings
+                    </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item app-logout">
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- END NAV -->
+
+<div class="columns" id="app-content" style="margin: 30px;">
+    <div class="column is-2 is-fullheight is-hidden-touch" id="sidebar">
+        <aside class="menu">
+            <p class="menu-label">
+                General
+            </p>
+            <ul class="menu-list">
+                <li>
+                    <a class="is-active" href="{% url 'dashboard' %}">
+                            <span class="icon">
+                                <i class="fa fa-home"></i>
+                            </span> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'inventory_index' %}">
+                            <span class="icon">
+                                <i class="fa fa-boxes"></i>
+                            </span> Inventory
+                    </a>
+                </li>
+                <li>
+
+                    <a>
+                            <span class="icon">
+                                <i class="fa fa-chart-line"></i>
+                            </span> Management
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="{% url 'supplier_index' %}">Suppliers</a></li>
+                        <li><a href="{% url 'product_category_index' %}">Product Categories</a></li>
+                        <li><a href="{% url 'product_warehouse' %}">Products</a></li>
+                        <li><a href="{% url 'warehouse_index' %}">Warehouses</a></li>
+                        <li><a href="{% url 'location_index' %}">Locations</a></li>
+                        <li><a href="{% url 'delivery_index' %}">Deliveries</a></li>
+                        <li><a href="{% url 'transfer_index' %}">Transfers</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                            <span class="icon">
+                                <i class="fa fa-shopping-cart"></i>
+                            </span> Orders
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                            <span class="icon">
+                                <i class="fa fa-truck"></i>
+                            </span> Logistics
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                            <span class="icon">
+                                <i class="fa fa-shield-alt"></i>
+                            </span> Safety
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'report' %}">
+                            <span class="icon">
+                                <i class="fa fa-chart-line"></i>
+                            </span> Reports
+                    </a>
+                </li>
+            </ul>
+        </aside>
+    </div>
+
+    <div class="column is-10" id="page-content">
+        <div class="content-header">
+            <h4 class="title is-4">Dashboard</h4>
+            <span class="separator"></span>
+            <nav class="breadcrumb has-bullet-separator" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="#">General</a></li>
+                    <li class="is-active"><a href="#" aria-current="page">Dashboard</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="content-body">
+            <div class="columns is-multiline">
+                <div class="column">
+                    <div class="box quick-stats has-background-info has-text-white">
+                        <div class="quick-stats-content">
+                            <p class="quick-stats-title">{{ product_title }}</p>
+                            <p class="quick-stats-number">{{ total_product }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="box quick-stats has-background-primary has-text-white">
+                        <div class="quick-stats-content">
+                            <p class="quick-stats-title">{{ order_title }}</p>
+                            <p class="quick-stats-number">{{ total_orders }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="box quick-stats has-background-danger has-text-white">
+                        <div class="quick-stats-content">
+                            <p class="quick-stats-title">{{ delivery_title }}</p>
+                            <p class="quick-stats-number">{{ total_deliveries }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                Inventory Overview
+                            </p>
+                            <a href="#" class="card-header-icon" aria-label="more options">
+                                <span class="icon">
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+                                <canvas id="inventoryChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>
+            <strong>Warehouse Manager</strong> by <a href="#">Your Name</a>.
+        </p>
+        <p>
+            <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+        </p>
+    </div>
+</footer>
+
+<script src="{% static 'theme/js/app.js' %}"></script>
+<script>
+    // Chart.js code for inventory chart
+    var ctx = document.getElementById('inventoryChart').getContext('2d');
+    var inventoryChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Product A', 'Product B', 'Product C', 'Product D', 'Product E'],
+            datasets: [{
+                label: 'Inventory',
+                data: [50, 30, 70, 40, 60],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+
+</html>

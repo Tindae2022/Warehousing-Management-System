@@ -1,0 +1,67 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+
+{% block page_content %}
+<div class="column is-12-tablet is-10-desktop is-8-widescreen">
+    <div class="columns is-multiline">
+        <div class="column is-full">
+    <div class="buttons are-medium">
+        
+        
+    </div>
+</div>
+
+
+        {% if users %}
+        <div class="column is-full" >
+            <table class="table is-bordered is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Phone Number</th>
+                         <th>Last Login </th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        
+                        <td>{{ user.first_name }} {{ user.last_name }} </td>
+                        <td>{{ user.email }}</td>
+                        <td>{{user.user_type }}</td>
+                        <td>{{user.phone_number }}</td>
+                        <td>{{user.last_login }}</td>
+                        <td>
+                            <div class="button-group">
+                                <a href="#" class="button is-small is-danger jb-modal" data-target="sample-modal">
+                                    <span class="icon">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </span>
+                                </a>
+                                <a href="{% url 'user_update' user.pk %}" class="button is-small is-info">
+                                    <span class="icon">
+                                        <i class="fas fa-edit"></i>
+                                    </span>
+                                </a>
+                                <a href="#" class="button is-small is-primary">
+                                    <span class="icon">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

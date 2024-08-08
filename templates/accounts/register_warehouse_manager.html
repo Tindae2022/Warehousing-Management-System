@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block page_content %}
+<div class="header has-text-centered">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-9-widescreen mx-auto">
+                <h1 class="mb-4">Warehouse Manager Registration Form</h1>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a class="text-default" href="">Home &nbsp; &nbsp; /</a></li>
+                    <li class="list-inline-item text-primary">Register Warehouse Manager</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <svg class="header-shape-1" width="39" height="40" viewBox="0 0 39 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- SVG path code for shape -->
+    </svg>
+
+    <!-- Add more header shapes if needed -->
+
+    <svg class="header-border" height="240" viewBox="0 0 2202 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- SVG path code for border -->
+    </svg>
+</div>
+
+<section class="section-sm">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-8-widescreen mx-auto">
+                <div class="content mb-5">
+                    <h2>Welcome to Warehouse Manager Registration</h2>
+                    <p>Please fill in the form below to register as a warehouse manager.</p>
+                </div>
+                
+                <form method="post" class="form" action="{% url 'accounts:register_warehouse_manager' %}">
+                    {% csrf_token %}
+                    <div class="field">
+                        <label class="label" for="{{ form.first_name.id_for_label }}">First Name (Required)</label>
+                        <div class="control">
+                            <input class="input is-medium" type="text" placeholder="First Name" name="{{ form.first_name.name }}" id="{{ form.first_name.id_for_label }}">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="{{ form.last_name.id_for_label }}">Last Name (Required)</label>
+                        <div class="control">
+                            <input class="input is-medium" type="text" placeholder="Last Name" name="{{ form.last_name.name }}" id="{{ form.last_name.id_for_label }}">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="{{ form.email.id_for_label }}">Your Email Address (Required)</label>
+                        <div class="control">
+                            <input class="input is-medium" type="email" placeholder="Email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="{{ form.password1.id_for_label }}">Password (Required)</label>
+                        <div class="control">
+                            {{ form.password1.errors }}
+                            <input class="input is-medium" type="password" placeholder="Password" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="{{ form.password2.id_for_label }}">Confirm Password (Required)</label>
+                        <div class="control">
+                            {{ form.password2.errors }}
+                            <input class="input is-medium" type="password" placeholder="Confirm Password" name="{{ form.password2.name }}" id="{{ form.password2.id_for_label }}">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="{{ form.date_of_birth.id_for_label }}">Date of Birth (Required)</label>
+                        <div class="control">
+                            <input class="input is-medium" type="text" placeholder="YYYY-MM-DD" name="{{ form.date_of_birth.name }}" id="{{ form.date_of_birth.id_for_label }}" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="control">
+                            <button type="submit" class="button is-primary">Register</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr("#{{ form.date_of_birth.id_for_label }}", {
+            dateFormat: "Y-m-d",
+            maxDate: "today"
+        });
+    });
+</script>
+{% endblock %}

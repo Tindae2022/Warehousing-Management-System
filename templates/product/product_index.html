@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_content %}
+    <style>
+    body {
+        color: #333;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .cover-image {
+        max-height: 330px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+    }
+
+    .cover-image img {
+        transition: transform 1s, filter 2s ease-in-out;
+        -webkit-transition: transform 1s, filter 2s ease-in-out;
+        transform: scale(1.1);
+        -webkit-transform: scale(1.1);
+    }
+
+    .card:hover .cover-image img {
+        cursor: pointer;
+        transform: scale(1.2);
+        -webkit-transform: scale(1.2);
+    }
+
+    .is-overflow-hidden {
+        overflow: hidden !important;
+    }
+
+    .is-cursor-pointer {
+        cursor: pointer !important;
+    }
+
+    .is-tr-1 {
+        top: 1rem;
+        right: 1rem;
+    }
+
+    .is-absolute {
+        position: absolute;
+    }
+
+    .is-circle {
+        border-radius: 50%;
+    }
+
+    .is-text-wide-1 {
+        letter-spacing: 0.1em !important;
+    }
+
+    .is-fill-white {
+        fill: #ffffff;
+    }
+
+    .w-6 {
+        width: 1.5rem !important;
+    }
+
+    .shadow-lg {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .fixed-size {
+        width: 100%;
+        height: 200px; /* Adjust the height as needed */
+        object-fit: cover;
+    }
+
+    .button.is-navy-blue {
+        background-color: #001f3f;
+        color: white;
+    }
+
+    .button.is-navy-blue:hover {
+        background-color: #001737;
+    }
+    </style>
+
+    <section class="section pb-0">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar with Categories -->
+                <div class="col-lg-3">
+                    <div class="widget widget-categories">
+                        <h4 class="widget-title"><span>Categories</span></h4>
+                        <ul class="list-unstyled widget-list">
+                            <li>
+                                <a href="{% url 'product_list' %}" class="d-flex {% if not selected_category %}active{% endif %}">
+                                    All Categories
+                                    <small class="ml-auto">({{ products.count }})</small>
+                                </a>
+                            </li>
+                            {% for category in categories %}
+                                <li>
+                                    <a href="{% url 'product_list_by_category' category.id %}" class="d-flex {% if category.id == selected_category %}active{% endif %}">
+                                        {{ category.name }}
+                                        
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Products List -->
+                <div class="col-lg-9">
+                    <div class="row">
+                        {% for product in products %}
+                            <div class="col-md-4 mb-4">
+                                <div class="card shadow-lg is-cursor-pointer">
+                                    <div class="card-image cover-image is-overflow-hidden">
+                                        {% if product.image %}
+                                            <figure class="image is-4by3">
+                                                <img class="fixed-size" src="{{ product.image.url }}" alt="{{ product.name }}">
+                                            </figure>
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="content">
+                                            <p class="is-uppercase is-text-wide-1 is-size-7 has-text-weight-semibold">{{ product.name }}</p>
+                                            <h3 class="mb-1">Nle{{ product.unit_price }}</h3>
+                                            <p class="has-text-grey-light">{{ product.description }}</p>
+                                        </div>
+                                        <a href="{% url 'product_detail' product.pk %}" class="btn btn-outline-primary btn-block">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

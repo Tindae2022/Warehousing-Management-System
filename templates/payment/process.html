@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_content %}
+    <br>
+    <br>
+    <br>
+    <h1>Order Summary</h1>
+    
+    <p>Order Date: {{ order.order_date }}</p>
+    <p>Status: {{ order.status }}</p>
+    <h2>Items</h2>
+    <ul>
+        {% for item in order.orderitem_set.all %}
+            <li>{{ item.product.name }} </li>
+            <li> Quantity: {{ item.quantity }} </li>
+               <li> Price: Nle{{ item.total_price }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Total: Nle{{ order.get_total_cost }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Pay with Stripe</button>
+    </form>
+    
+{% endblock %}

@@ -1,0 +1,200 @@
+{% extends 'dashboard/base.html' %}
+{% block page_content %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <div class="columns">
+        <div class="column is-6">
+            <div class="box">
+                <h4 class="title is-4">Daily Sales Report</h4>
+                <canvas id="dailySalesChart"></canvas>
+            </div>
+        </div>
+        <div class="column is-6">
+            <div class="box">
+                <h4 class="title is-4">Daily Deliveries Status</h4>
+                <canvas id="dailyDeliveriesChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column is-6">
+            <div class="box">
+                <h4 class="title is-4">Weekly Sales Summary</h4>
+                <canvas id="weeklySalesChart"></canvas>
+            </div>
+        </div>
+        <div class="column is-6">
+            <div class="box">
+                <h4 class="title is-4">Weekly Stock Levels</h4>
+                <canvas id="weeklyStockChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column is-6">
+            <div class="box">
+                <h4 class="title is-4">Monthly Inventory Summary</h4>
+                <canvas id="monthlyInventoryChart"></canvas>
+            </div>
+        </div>
+        <div class="column is-6">
+            <div class="box">
+                <h4 class="title is-4">Monthly Order Summary</h4>
+<canvas id="monthlyOrdersChart"></canvas>
+</div>
+</div>
+</div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Data for charts
+    const dailySalesData = {{ daily_sales|safe }};
+    const dailyDeliveriesData = {{ daily_deliveries_status|safe }};
+    const weeklySalesData = {{ weekly_sales|safe }};
+    const weeklyStockData = {{ weekly_stock|safe }};
+    const monthlyInventoryData = {{ monthly_inventory|safe }};
+    const monthlyOrdersData = {{ monthly_orders|safe }};
+
+    // Daily Sales Chart
+    const dailySalesCtx = document.getElementById('dailySalesChart').getContext('2d');
+    const dailySalesChart = new Chart(dailySalesCtx, {
+        type: 'line',
+        data: {
+            labels: dailySalesData.map(item => item.product__name),
+            datasets: [{
+                label: 'Daily Sales Quantity',
+                data: dailySalesData.map(item => item.total_quantity),
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Daily Deliveries Chart
+    const dailyDeliveriesCtx = document.getElementById('dailyDeliveriesChart').getContext('2d');
+    const dailyDeliveriesChart = new Chart(dailyDeliveriesCtx, {
+        type: 'pie',
+        data: {
+            labels: dailyDeliveriesData.map(item => item.status),
+            datasets: [{
+                label: 'Daily Deliveries Status',
+                data: dailyDeliveriesData.map(item => item.count),
+                backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+                borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+                borderWidth: 1
+            }]
+        }
+    });
+
+    // Weekly Sales Chart
+    const weeklySalesCtx = document.getElementById('weeklySalesChart').getContext('2d');
+    const weeklySalesChart = new Chart(weeklySalesCtx, {
+        type: 'bar',
+        data: {
+            labels: weeklySalesData.map(item => item.product__category__name),
+            datasets: [{
+                label: 'Weekly Sales Quantity',
+                data: weeklySalesData.map(item => item.total_quantity),
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Weekly Stock Chart
+    const weeklyStockCtx = document.getElementById('weeklyStockChart').getContext('2d');
+    const weeklyStockChart = new Chart(weeklyStockCtx, {
+        type: 'line',
+        data: {
+            labels: weeklyStockData.map(item => item.warehouse__name),
+            datasets: [{
+                label: 'Weekly Average Stock',
+                data: weeklyStockData.map(item => item.average_stock),
+                borderColor: 'rgba(153, 102, 255, 1)',
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Monthly Inventory Chart
+    const monthlyInventoryCtx = document.getElementById('monthlyInventoryChart').getContext('2d');
+    const monthlyInventoryChart = new Chart(monthlyInventoryCtx, {
+        type: 'pie',
+        data: {
+            labels: monthlyInventoryData.map(item => item.product__name),
+            datasets: [{
+                label: 'Monthly Inventory Quantity',
+                data: monthlyInventoryData.map(item => item.total_quantity),
+                backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                borderColor: 'rgba(255, 206, 86, 1)',
+                borderWidth: 1
+            }]
+        }
+    });
+
+    // Monthly Orders Chart
+    const monthlyOrdersCtx = document.getElementById('monthlyOrdersChart').getContext('2d');
+    const monthlyOrdersChart = new Chart(monthlyOrdersCtx, {
+        type: 'bar',
+        data: {
+            labels: monthlyOrdersData.map(item => item.provider__name),
+            datasets: [{
+                label: 'Monthly Orders Value',
+                data: monthlyOrdersData.map(item => item.total_value),
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
+</script>
+
+    
+{% endblock %}

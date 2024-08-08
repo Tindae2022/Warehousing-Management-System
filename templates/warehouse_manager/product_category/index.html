@@ -1,0 +1,71 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+
+
+{% block page_content %}
+    <style>
+    .button-group {
+        display: flex;
+        align-items: center;
+    }
+
+    .button-group .button {
+        margin-right: 10px; /* Adjust as needed */
+    }
+
+    .button-group .button:last-child {
+        margin-right: 0; /* Remove margin from the last button */
+    }
+    </style>
+
+    <div class="column is-12-tablet is-10-desktop is-8-widescreen" style="margin: 20px;">
+        <div class="columns is-multiline">
+            <!-- Add New Product Category Button -->
+            <span>
+                <a href="{% url 'product_category_create' %}" class="button is-info is-medium">
+                    <i class="fas fa-plus is-white"></i> Add New Product Category
+                </a>
+            </span>
+        </div>
+
+        {% if product_categories %}
+            <div class="column is-full" style="margin: 20px;">
+                <table class="table is-bordered is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Name</th>
+                            <th>Total Product</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         {% for product_category in product_categories %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ product_category.name }}</td>
+                                
+                                  <td>{{ product_category.product_count }}</td>
+                                
+                                <td>
+                               
+                                    <div class="button-group">
+                                        <a href="{% url 'product_category_delete' product_category.pk %}" class="button is-small is-danger jb-modal" data-target="sample-modal">
+                                            <span class="icon"><i class="fas fa-trash-alt"></i></span>
+                                        </a>
+                                        <a href="{% url 'product_category_update' product_category.pk %}" class="button is-small is-info">
+                                            <span class="icon"><i class="fas fa-edit"></i></span>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>No product categories found.</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block page_content %}
+<br>
+<h1 style="margin: 20px">Notifications (<span id="notification-count">{{ notifications.count }}</span>)</h1>
+<ul class="list-group">
+    <br><br>
+    {% for notification in notifications %}
+        <li class="list-group-item{% if not notification.is_read %} list-group-item-warning{% endif %}">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="mb-1">{{ notification.message }}</p>
+                    {% if notification.notification_type == 'ORDER' %}
+                        <a href="{% url 'mark_as_read' notification.pk %}?next={% url 'notifications' %}" class="btn btn-sm btn-primary mark-as-read">Mark as read</a>
+                    {% elif notification.notification_type == 'MESSAGE' and notification.conversation %}
+                        <a href="{% url 'conversation_detail' notification.conversation.pk %}" class="btn btn-sm btn-primary">View Message</a>
+                        <a href="{% url 'mark_as_read' notification.pk %}?next={% url 'notifications' %}" class="btn btn-sm btn-primary mark-as-read">Mark as read</a>
+                    {% else %}
+                        <a href="{% url 'mark_as_read' notification.pk %}?next={% url 'notifications' %}" class="btn btn-sm btn-primary mark-as-read">Mark as read</a>
+                    {% endif %}
+                </div>
+                <small>{{ notification.timestamp|date:"M d, Y H:i" }}</small>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

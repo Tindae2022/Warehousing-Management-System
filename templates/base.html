@@ -1,0 +1,421 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <title>Inventory Plus</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="This is meta description">
+  <meta name="author" content="Themefisher">
+  <meta name="generator" content="Hugo 0.74.3" />
+  
+  <!-- theme meta -->
+  <meta name="theme-name" content="reader-bulma" />
+
+  <!-- plugins -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{% static 'theme/plugins/themify-icons/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'theme/plugins/slick/slick.css' %}">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="{% static 'theme/css/style.css' %}" media="screen">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="{% static 'theme/images/favicon.png' %}">
+  <link rel="icon" href="{% static 'theme/images/favicon.png' %}">
+
+  <meta property="og:title" content="Reader | Personal Bulma Blog Template" />
+  <meta property="og:description" content="This is meta description" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="" />
+  <meta property="og:updated_time" content="2020-03-15T15:40:24+06:00" />
+    
+  <style>
+      {% block style %}
+    body {
+      color: #333;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .cover-image {
+      max-height: 330px;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+    }
+
+    .cover-image img {
+      transition: transform 1s, filter 2s ease-in-out;
+      -webkit-transition: transform 1s, filter 2s ease-in-out;
+      transform: scale(1.1);
+      -webkit-transform: scale(1.1);
+    }
+
+    .card:hover .cover-image img {
+      cursor: pointer;
+      transform: scale(1.2);
+      -webkit-transform: scale(1.2);
+    }
+
+    .is-overflow-hidden {
+      overflow: hidden !important;
+    }
+
+    .is-cursor-pointer {
+      cursor: pointer !important;
+    }
+
+    .is-tr-1 {
+      top: 1rem;
+      right: 1rem;
+    }
+
+    .is-absolute {
+      position: absolute;
+    }
+
+    .is-circle {
+      border-radius: 50%;
+    }
+
+    .is-text-wide-1 {
+      letter-spacing: 0.1em !important;
+    }
+
+    .is-fill-white {
+      fill: #ffffff;
+    }
+
+    .w-6 {
+      width: 1.5rem !important;
+    }
+
+    .shadow-lg {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .fixed-size {
+      width: 100%;
+      height: 200px; /* Adjust the height as needed */
+      object-fit: cover;
+    }
+  </style>
+    {% endblock %}
+</head>
+<body>
+
+  <!-- navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'home' %}">
+        <img class="img-fluid" width="100px" src="{% static 'theme/images/logo_fbm.jpeg' %}" alt="InventoryPlus">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'product_list' %}">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'cart:cart_detail' %}">Cart</a> 
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact Us</a>
+          </li>
+           
+
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <span class="nav-link">{{ request.user.first_name }} {{ request.user.last_name }}</span>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="{% if request.user.profile_picture %}{{ request.user.profile.profile_picture.url }}{% else %}{% static 'theme/images/w_image' %}{% endif %}" alt="Profile Picture" class="rounded-circle" width="30" height="30">
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {% if request.user.is_customer %}
+                <!-- Code specific to customers -->
+                <a class="dropdown-item" href="{% url 'order_history' %}">History</a> 
+                <a class="dropdown-item" href="#">Favorites</a>
+                <a class="dropdown-item" href="#">Edit Profile</a>
+              {% elif request.user.is_sales_manager %}
+                <!-- Code specific to sales managers -->
+                <a class="dropdown-item" href="{% url 'sales_manager' %}">Sales Manager Dashboard</a>
+                <a class="dropdown-item" href="#">Manage Sales</a>
+                <a class="dropdown-item" href="#">Profile</a>
+              {% elif request.user.is_warehouse_manager %}
+                <!-- Code specific to warehouse managers -->
+                <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
+                  <a class="dropdown-item" href="{% url 'order_history' %}">History</a> 
+                <a class="dropdown-item" href="#">Profile</a>
+              {% endif %}
+              <a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a>
+            </div>
+          </li>
+          {% else %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarRegister" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-user-plus"></i> Register
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarRegister">
+              <a class="dropdown-item" href="{% url 'accounts:register_customer' %}">Customer</a>
+                 <a class="dropdown-item" href="{% url 'accounts:register_sales_manager' %}">Sales Manager</a>
+                           </div>
+           
+          
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:login' %}">
+              <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- /navigation -->
+
+  {% block categories %}
+  <!-- start of banner -->
+  {% endblock %}
+
+  {% block page_content %}
+  <section class="section pb-0">
+    <br><br>
+    <div class="container">
+      <div class="row">
+        <br>
+        <!-- Trending Products Section -->
+        <div class="col-12">
+          <br>
+          <h2 class="h5 section-title">{{ trending_section_title }}</h2>
+        </div>
+        <div class="col-12">
+          <div class="row">
+            {% if trending_products %}
+            {% for product in trending_products %}
+            <br>
+            <div class="col-md-4">
+              <div class="card shadow-lg is-cursor-pointer">
+                <div class="card-image cover-image is-overflow-hidden">
+                  <br>
+                  {% if product.image %}
+                  <figure class="image is-4by3">
+                    <img class="fixed-size" src="{{ product.image.url }}" alt="{{ product.name }}">
+                  </figure>
+                  {% endif %}
+                </div>
+                <div class="card-body">
+                  <div class="content">
+                    <p class="is-uppercase is-text-wide-1 is-size-7 has-text-weight-semibold">{{ product.name }}</p>
+                    <h3 class="mb-1">Nle{{ product.unit_price }}</h3>
+                    <p class="has-text-grey-light">{{ product.description }}</p>
+                  </div>
+                  <a href="{% url 'product_detail' product.pk %}" class="btn btn-outline-primary is-fullwidth">View Detail</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="col-12">
+              <br>
+              <div class="notification">
+                <span>No trending products found</span>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        <!-- End of Trending Products Section -->
+      </div>
+    </div>
+  </section>
+      <section class="section pb-0">
+    <br><br>
+    <div class="container">
+      <div class="row">
+        <br>
+        <!-- Trending Products Section -->
+        <div class="col-12">
+          <br>
+          <h2 class="h5 section-title">{{ new_arrival_section_title }}</h2>
+        </div>
+        <div class="col-12">
+          <div class="row">
+            {% if new_arrival_products %}
+            {% for product in new_arrival_products %}
+            <br>
+            <div class="col-md-4">
+              <div class="card shadow-lg is-cursor-pointer">
+                <div class="card-image cover-image is-overflow-hidden">
+                  <br>
+                  {% if product.image %}
+                  <figure class="image is-4by3">
+                    <img class="fixed-size" src="{{ product.image.url }}" alt="{{ product.name }}">
+                  </figure>
+                  {% endif %}
+                </div>
+                <div class="card-body">
+                  <div class="content">
+                    <p class="is-uppercase is-text-wide-1 is-size-7 has-text-weight-semibold">{{ product.name }}</p>
+                    <h3 class="mb-1">Nle{{ product.unit_price }}</h3>
+                    <p class="has-text-grey-light">{{ product.description }}</p>
+                  </div>
+                  <a href="{% url 'product_detail' product.pk %}" class="btn btn-outline-primary is-fullwidth">View Detail</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="col-12">
+              <br>
+              <div class="notification">
+                <span>No new arrival products found</span>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        <!-- End of Trending Products Section -->
+      </div>
+    </div>
+  </section>
+      <section class="section pb-0">
+    <br><br>
+    <div class="container">
+      <div class="row">
+        <br>
+        <!-- Trending Products Section -->
+        <div class="col-12">
+          <br>
+          <h2 class="h5 section-title">{{ top_rated_section_title }}</h2>
+        </div>
+        <div class="col-12">
+          <div class="row">
+            {% if top_rated_products %}
+            {% for product in top_rated_products %}
+            <br>
+            <div class="col-md-4">
+              <div class="card shadow-lg is-cursor-pointer">
+                <div class="card-image cover-image is-overflow-hidden">
+                  <br>
+                  {% if product.image %}
+                  <figure class="image is-4by3">
+                    <img class="fixed-size" src="{{ product.image.url }}" alt="{{ product.name }}">
+                  </figure>
+                  {% endif %}
+                </div>
+                <div class="card-body">
+                  <div class="content">
+                    <p class="is-uppercase is-text-wide-1 is-size-7 has-text-weight-semibold">{{ product.name }}</p>
+                    <h3 class="mb-1">Nle{{ product.unit_price }}</h3>
+                    <p class="has-text-grey-light">{{ product.description }}</p>
+                  </div>
+                  <a href="{% url 'product_detail' product.pk %}" class="btn btn-outline-primary is-fullwidth">View Detail</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="col-12">
+              <br>
+              <div class="notification">
+                <span>No trending products found</span>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        <!-- End of Trending Products Section -->
+      </div>
+    </div>
+  </section>
+  {% endblock %}
+<br>
+  
+  <!-- footer -->
+  <footer class="footer pt-5 pb-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-8 mb-5 mb-lg-0">
+          <div class="footer-widget">
+            <h4 class="mb-3">Company Info</h4>
+            <ul class="list-unstyled">
+              <li class="mb-2"><a href="#">About Us</a></li>
+              <li class="mb-2"><a href="#">Contact Us</a></li>
+              <li class="mb-2"><a href="#">Support</a></li>
+              <li class="mb-2"><a href="#">Careers</a></li>
+              <li class="mb-2"><a href="#">Privacy Policy</a></li>
+              <li class="mb-2"><a href="#">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-8 mb-5 mb-lg-0">
+          <div class="footer-widget">
+            <h4 class="mb-3">Quick Links</h4>
+            <ul class="list-unstyled">
+              <li class="mb-2"><a href="#">FAQs</a></li>
+              <li class="mb-2"><a href="#">Shipping & Returns</a></li>
+              <li class="mb-2"><a href="#">Store Locator</a></li>
+              <li class="mb-2"><a href="#">Blog</a></li>
+              <li class="mb-2"><a href="#">Gift Cards</a></li>
+              <li class="mb-2"><a href="#">Size Guide</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-8 mb-5 mb-lg-0">
+          <div class="footer-widget">
+            <h4 class="mb-3">Customer Service</h4>
+            <ul class="list-unstyled">
+              <li class="mb-2"><a href="#">Help Center</a></li>
+              <li class="mb-2"><a href="#">Track Order</a></li>
+              <li class="mb-2"><a href="#">Product Recalls</a></li>
+              <li class="mb-2"><a href="#">Accessibility</a></li>
+              <li class="mb-2"><a href="#">Contact Support</a></li>
+              <li class="mb-2"><a href="#">Feedback</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-8 mb-5 mb-lg-0">
+          <div class="footer-widget">
+            <h4 class="mb-3">Subscribe</h4>
+            <form action="#">
+              <div class="input-group">
+                <input type="email" class="form-control" placeholder="Enter your email" required>
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="submit">Subscribe</button>
+                </div>
+              </div>
+            </form>
+            <p class="mt-3">Subscribe to our newsletter to get the latest news and offers.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- /footer -->
+
+  <!-- JS Plugins -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="{% static 'theme/plugins/slick/slick.min.js' %}"></script>
+  <script src="{% static 'theme/plugins/plyr/plyr.min.js' %}"></script>
+  <script src="{% static 'theme/js/script.js' %}"></script>
+
+</body>
+</html>

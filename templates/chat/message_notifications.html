@@ -1,0 +1,22 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block page_content %}
+<br>
+<h1 style="margin: 20px">Message Notifications (<span id="message-notification-count">{{ message_notifications.count }}</span>)</h1>
+<ul class="list-group">
+    <br><br>
+    {% for notification in message_notifications %}
+        <li class="list-group-item{% if not notification.is_read %} list-group-item-warning{% endif %}">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="mb-1">{{ notification.message }}</p>
+                    <a href="{% url 'conversation_detail' notification.conversation.pk %}" class="btn btn-sm btn-primary">View Message</a>
+                    <a href="{% url 'mark_message_as_read' notification.pk %}?next={% url 'message_notifications' %}" class="btn btn-sm btn-primary">Mark as read</a>
+                </div>
+                <small>{{ notification.timestamp|date:"M d, Y H:i" }}</small>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

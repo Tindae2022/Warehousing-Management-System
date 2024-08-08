@@ -1,0 +1,17 @@
+<!-- registration_success.html -->
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %}Registration Success {% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Registration Successful!</h4>
+            <p>The record has been registered successfully. Thank you!</p>
+            
+        </div>
+        <br>
+
+        <a href="{% url 'product_warehouse' %}" class="button is-primary">OK</a>
+    </div>
+{% endblock %}

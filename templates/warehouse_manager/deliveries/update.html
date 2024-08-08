@@ -1,0 +1,102 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block page_content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title">Update Delivery </h1>
+        <form method="POST" enctype="multipart/form-data" action="{% url 'delivery_update' object.pk %}">
+            {% csrf_token %}
+            <div class="columns">
+                <div class="column">
+                    
+
+                    
+                   
+
+                    <div class="field">
+                        <label class="label">Order</label>
+                        <div class="control">
+                            {{ form.order }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Sales Date</label>
+                        <div class="control">
+                            {{ form.sales_date }}
+                        </div>
+                    </div>
+
+                    
+
+                    
+                </div>
+                
+                <div class="column">
+                    
+
+                    <div class="field">
+                        <label class="label">Status</label>
+                        <div class="control">
+                            {{ form.status }}
+                        </div>
+                    </div>
+
+                    
+                    
+
+                    
+                    
+                </div>
+                
+            </div>
+        
+                 <h3 class="title is-4">Delivery Details</h3>
+            {{ delivery_items.management_form }}
+            <div id="order-items">
+                {% for delivery_form in delivery_items %}
+                    <div class="box">
+                        <div class="field">
+                            <label class="label">Product</label>
+                            <div class="control">
+                                {{ delivery_form.product }}
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Quantity</label>
+                            <div class="control">
+                                {{ delivery_form.quantity }}
+                            </div>
+                        </div>
+                    <div class="field">
+                            <label class="label">Expected Date</label>
+                            <div class="control">
+                                {{ delivery_form.expected_date }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if form.errors %}
+                <div class="notification is-danger">
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        <br>
+
+            <div class="field is-grouped">
+                <div class="control">
+                    <button type="submit" class="button is-primary"><i class="fas fa-save"></i>&nbsp;Save</button>
+                </div>
+                
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

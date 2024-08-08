@@ -1,0 +1,181 @@
+
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block page_content %}
+     <title>Yearly Report</title>
+    <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <section class="section">
+   
+        <div class="container">
+            
+
+            <div class="box">
+                <h2 class="subtitle">Top 5 Products by Quantity Sold</h2>
+                <canvas id="topProductsChart"></canvas>
+            </div>
+
+            <div class="box">
+                <h2 class="subtitle">Bottom 5 Products by Quantity Sold</h2>
+                <canvas id="bottomProductsChart"></canvas>
+            </div>
+
+            <script>
+                var topProductsCtx = document.getElementById('topProductsChart').getContext('2d');
+                var topProductsChart = new Chart(topProductsCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: {{ top_5_product_names|safe }},
+                        datasets: [{
+                            label: 'Quantity Sold',
+                            data: {{ top_5_product_quantities|safe }},
+                            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+                var bottomProductsCtx = document.getElementById('bottomProductsChart').getContext('2d');
+                var bottomProductsChart = new Chart(bottomProductsCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: {{ bottom_5_product_names|safe }},
+                        datasets: [{
+                            label: 'Quantity Sold',
+                            data: {{ bottom_5_product_quantities|safe }},
+                             backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                                 
+                'rgba(153, 102, 255, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            
+
+            <div class="box">
+                <h2 class="subtitle is-primary">Top 5 Products by Quantity Available</h2>
+                <canvas id="topProductsChartQuantity"></canvas>
+            </div>
+
+            <div class="box">
+                <h2 class="subtitle">Bottom 5 Products by Quantity Available</h2>
+                <canvas id="bottomProductsChartQuantity"></canvas>
+            </div>
+
+            <script>
+                var topProductsCtx = document.getElementById('topProductsChartQuantity').getContext('2d');
+                var topProductsChart = new Chart(topProductsCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: [{% for product in top_5_products_quantity %}'{{ product.name }}',{% endfor %}],
+                        datasets: [{
+                            label: 'Quantity Available',
+                            data: [{% for product in top_5_products_quantity %}{{ product.quantity_available }},{% endfor %}],
+                             backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+                var bottomProductsCtx = document.getElementById('bottomProductsChartQuantity').getContext('2d');
+                var bottomProductsChart = new Chart(bottomProductsCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: [{% for product in bottom_5_products_quantity %}'{{ product.name }}',{% endfor %}],
+                        datasets: [{
+                            label: 'Quantity Available',
+                            data: [{% for product in bottom_5_products_quantity %}{{ product.quantity_available }},{% endfor %}],
+                             backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block page_content %}
+    <style>
+        .button-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .button-group .button {
+            margin-right: 10px; /* Adjust as needed */
+        }
+
+        .button-group .button:last-child {
+            margin-right: 0; /* Remove margin from the last button */
+        }
+    </style>
+    <div class="column is-12-tablet is-10-desktop is-8-widescreen" style="margin: 20px;">
+        <div class="columns is-multiline">
+            <span><a href="{% url 'delivery_create' %}" class="button is-info is-medium">
+                <i class="fas fa-plus is-white"></i> Add New Delivery 
+            </a></span>
+        </div>
+
+        {% if deliveries %}
+            <div class="column is-full" style="margin: 20px;">
+                <table class="table is-bordered is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Customer Name</th>
+                            <th>Sales Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for delivery in deliveries %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ delivery.order.customer.first_name }} {{ delivery.order.customer.last_name }}</td>
+                                <td>{{ delivery.sales_date }}</td>
+                                <td>{{ delivery.status }}</td>
+                                <td>
+                                    <div class="button-group">
+                                        <a href="{% url 'delivery_detail' delivery.pk %}" class="button is-small is-primary">
+                                            <span class="icon"><i class="fas fa-eye"></i></span>
+                                        </a>
+                                        <a href="{% url 'delivery_update' delivery.pk %}" class="button is-small is-info">
+                                            <span class="icon"><i class="fas fa-edit"></i></span>
+                                        </a>
+                                        <a href="{% url 'delivery_delete' delivery.pk %}" class="button is-small is-danger jb-modal" data-target="sample-modal">
+                                            <span class="icon"><i class="fas fa-trash-alt"></i></span>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

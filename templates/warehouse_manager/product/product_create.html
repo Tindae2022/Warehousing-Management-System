@@ -1,0 +1,155 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+<
+{% block page_content %}
+    <style>
+    .header, .button.is-primary {
+        background-color: #001f3f;
+        color: white;
+    }
+
+    
+
+    .input.is-medium, .select.is-medium, .textarea.is-medium {
+        border-color: #001f3f;
+    }
+
+    .input.is-medium:focus, .select.is-medium:focus, .textarea.is-medium:focus {
+        border-color: #001f3f;
+        box-shadow: 0 0 0 0.125em rgba(0, 31, 63, 0.25);
+    }
+
+    .header .list-inline-item a {
+        color: white;
+    }
+
+    .header .list-inline-item.text-primary {
+        color: white;
+    }
+</style>
+
+
+
+<section class="section-sm">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-8-widescreen mx-auto">
+                <div class="content mb-5">
+                    <br>
+                    <h2 id="add-new-product">Add New Product</h2>
+                    <p>Please fill in the form below to add a new product.</p>
+                </div>
+                
+                <form method="post" class="form" action="{% url 'product_create' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="field">
+                        <label class="label" for="{{ form.category.id_for_label }}">Category (Required)</label>
+                        <div class="control">
+                            <div class="select is-medium">
+                                <select name="{{ form.category.name }}" id="{{ form.category.id_for_label }}">
+                                    {% for choice in form.category.field.choices %}
+                                        <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="{{ form.code.id_for_label }}">Code (Required)</label>
+                                <div class="control">
+                                    <input class="input is-medium" type="text" placeholder="Code" name="{{ form.code.name }}" id="{{ form.code.id_for_label }}">
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="{{ form.name.id_for_label }}">Name (Required)</label>
+                        <div class="control">
+                            <input class="input is-medium" type="text" placeholder="Name" name="{{ form.name.name }}" id="{{ form.name.id_for_label }}">
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="{{ form.quantity_available.id_for_label }}">Quantity Available (Required)</label>
+                                <div class="control">
+                                    <input class="input is-medium" type="number" placeholder="Quantity Available" name="{{ form.quantity_available.name }}" id="{{ form.quantity_available.id_for_label }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="{{ form.unit_price.id_for_label }}">Unit Price (Required)</label>
+                                <div class="control">
+                                    <input class="input is-medium" type="number" step="0.01" placeholder="Unit Price" name="{{ form.unit_price.name }}" id="{{ form.unit_price.id_for_label }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="{{ form.packed_weight.id_for_label }}">Packed Weight (Required)</label>
+                                <div class="control">
+                                    <input class="input is-medium" type="number" step="0.01" placeholder="Packed Weight" name="{{ form.packed_weight.name }}" id="{{ form.packed_weight.id_for_label }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="{{ form.packed_height.id_for_label }}">Packed Height (Required)</label>
+                                <div class="control">
+                                    <input class="input is-medium" type="number" step="0.01" placeholder="Packed Height" name="{{ form.packed_height.name }}" id="{{ form.packed_height.id_for_label }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="{{ form.packed_width.id_for_label }}">Packed Width (Required)</label>
+                                <div class="control">
+                                    <input class="input is-medium" type="number" step="0.01" placeholder="Packed Width" name="{{ form.packed_width.name }}" id="{{ form.packed_width.id_for_label }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="{{ form.refrigerated.id_for_label }}">Refrigerated (Optional)</label>
+                        <div class="control">
+                            <label class="checkbox">
+                                <input type="checkbox" name="{{ form.refrigerated.name }}" id="{{ form.refrigerated.id_for_label }}">
+                                Refrigerated
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="{{ form.image.id_for_label }}">Image (Optional)</label>
+                        <div class="control">
+                            <input class="input is-medium" type="file" name="{{ form.image.name }}" id="{{ form.image.id_for_label }}">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="control">
+                            <button type="submit" class="button is-primary">Add Product</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

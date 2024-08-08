@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_content %}
+    <style>
+        /* Add your custom CSS styles here */
+        .receipt {
+            font-family: Arial, sans-serif;
+            width: 100%;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+        .header {
+            text-align: center;
+        }
+        .order-info {
+            margin-bottom: 20px;
+        }
+    </style>
+
+    <div class="receipt">
+        <div class="header">
+            <h1>Order Receipt</h1>
+        </div>
+        <div class="order-info">
+            <p>Order ID: {{ order.id }}</p>
+            <p>Order Code: {{ order.code }}</p>
+            <p>Customer: {{ order.customer.get_full_name }}</p>
+        </div>
+        <h2>Order Details</h2>
+        <ul>
+            {% for item in order.orderitem_set.all %}
+                <li>{{ item.product.name }} - Quantity: {{ item.quantity }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

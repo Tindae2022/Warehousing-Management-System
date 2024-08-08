@@ -1,0 +1,84 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block page_content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title">Update Customer Record</h1>
+        <form method="POST" enctype="multipart/form-data" action="{% url 'user_update' object.pk %}">
+            {% csrf_token %}
+            <div class="columns is-multiline">
+                <!-- First Column -->
+                <div class="column is-half">
+                    <div class="field">
+                        <label class="label">Firstname</label>
+                        <div class="control">
+                            {{ form.first_name }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Lastname</label>
+                        <div class="control">
+                            {{ form.last_name }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Email</label>
+                        <div class="control">
+                            {{ form.email }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Second Column -->
+                <div class="column is-half">
+                    <div class="field">
+                        <label class="label">Instagram Handle</label>
+                        <div class="control">
+                            {{ form.instagram_handle }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Twitter Handle</label>
+                        <div class="control">
+                            {{ form.twitter_handle }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Bio</label>
+                        <div class="control">
+                            {{ form.bio }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Profile</label>
+                        <div class="control">
+                            {{ form.profile_picture }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if form.errors %}
+                <div class="notification is-danger">
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <div class="field is-grouped">
+                <div class="control">
+                    <button type="submit" class="button is-primary"><i class="fas fa-save"></i>&nbsp;Save</button>
+                </div>
+                <div class="control">
+                    <a href="{% url 'user_index' %}" class="button is-light"><i class="fas fa-arrow-left"></i>&nbsp;Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

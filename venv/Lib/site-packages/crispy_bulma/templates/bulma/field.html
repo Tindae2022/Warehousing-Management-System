@@ -1,0 +1,68 @@
+{% load crispy_forms_bulma_field %}
+
+{% if field.is_hidden %}
+  {{ field }}
+{% else %}
+
+{# use a negated variable, so it get's rendered by default and we don't need to modify the FormHelper #}
+{% if not exclude_field_wrapper %}
+  <div
+    id="div_{{ field.auto_id }}"
+    class="field{% if wrapper_class %} {{ wrapper_class }}{% endif %}{% if form_horizontal %} is-horizontal{% endif %}"
+  >
+    {% if form_horizontal %}<div class="field-label">{% endif %}
+      {% if field.label and not field|is_checkbox %}
+        <label {% if not field|is_radioselect and not field|is_checkboxselectmultiple %}for="{{ field.id_for_label }}"{% endif %} class="label{% if label_class %} {{ label_class }}{% endif %}">
+          {{ field.label }}
+          {% if field.field.required %}
+            <span class="asterisk">*</span>
+          {% endif %}
+        </label>
+      {% endif %}
+    {% if form_horizontal %}</div>{% endif %}
+
+    {% if form_horizontal %}<div class="field-body"><div class="field">{% endif %}
+{% endif %}
+
+      {% block field-body %}
+
+      {% if field|is_select %}
+        {% include 'bulma/layout/select.html' %}
+
+      {% elif field|is_radioselect %}
+        {% include 'bulma/layout/radioselect.html' %}
+
+      {% elif field|is_checkbox %}
+        {% include 'bulma/layout/checkboxinput.html' %}
+
+      {% elif field|is_checkboxselectmultiple %}
+        {% include 'bulma/layout/checkboxselectmultiple.html' %}
+
+      {% else %}
+        <div class="control">
+          {% if field.errors %}
+              {% crispy_field field "class" "is-danger" %}
+          {% else %}
+              {% crispy_field field %}
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% endblock %}
+
+{% if not exclude_field_wrapper %}
+      {% if form_show_errors %}
+        {% for error in field.errors %}
+          <p id="error_{{ forloop.counter }}_{{ field.auto_id }}"
+             class="help is-danger">
+            {{ error }}
+          </p>
+        {% endfor %}
+      {% endif %}
+
+      {% include 'bulma/layout/help_text.html' %}
+    {% if form_horizontal %}</div></div>{% endif %}
+  </div>
+{% endif %}
+
+{% endif %}

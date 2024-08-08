@@ -1,0 +1,68 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+
+{% block page_content %}
+<div class="column is-12-tablet is-10-desktop is-8-widescreen">
+    <div class="columns is-multiline">
+        <div class="column is-full">
+            <a href="{% url 'product_create' %}" class="button is-info is-medium">
+                <span class="icon">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span>Add New Product</span>
+            </a>
+        </div>
+
+        {% if products %}
+        <div class="column is-full" >
+            <table class="table is-bordered is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Quantity Available</th>
+                        <th>Unit Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ product.code }}</td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.category }}</td>
+                        <td>{{ product.quantity_available }}</td>
+                        <td>{{ product.unit_price }}</td>
+                        <td>
+                            <div class="button-group">
+                                 <a href="{% url 'product_detail' product.pk %}" class="button is-small is-primary">
+                                    <span class="icon">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </a>
+                                <a href="{% url 'product_delete' product.pk %}" class="button is-small is-danger jb-modal" data-target="sample-modal">
+                                    <span class="icon">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </span>
+                                </a>
+                                <a href="{% url 'product_update' product.pk %}" class="button is-small is-info">
+                                    <span class="icon">
+                                        <i class="fas fa-edit"></i>
+                                    </span>
+                                </a>
+                               
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block page_content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title">Add New Transfer</h1>
+        <form method="POST" enctype="multipart/form-data" action="{% url 'transfer_update' object.pk %}">
+            {% csrf_token %}
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Product</label>
+                        <div class="control">
+                            {{ form.product }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Current Warehouse</label>
+                        <div class="control">
+                            {{ form.from_warehouse }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">To</label>
+                        <div class="control">
+                            {{ form.to_warehouse }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Quantity</label>
+                        <div class="control">
+                            {{ form.transfer_quantity }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Sent Date</label>
+                        <div class="control">
+                            {{ form.sent_date }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Received Date</label>
+                        <div class="control">
+                            {{ form.received_date }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Tracking Number</label>
+                        <div class="control">
+                            {{ form.tracking_number }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if form.errors %}
+                <div class="notification is-danger">
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            <div class="field is-grouped">
+                <div class="control">
+                    <button type="submit" class="button is-primary"><i class="fas fa-save"></i>&nbsp;Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

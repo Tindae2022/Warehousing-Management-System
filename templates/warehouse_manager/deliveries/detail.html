@@ -1,0 +1,92 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block page_content %}
+    <style>
+        .detail-header {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .detail-info {
+            margin-bottom: 20px;
+        }
+
+        .detail-info p {
+            margin-bottom: 10px;
+        }
+
+        .detail-info strong {
+            font-weight: 600;
+        }
+
+        .delivery-table {
+            margin-top: 20px;
+        }
+
+        .delivery-table th {
+            background-color: #f5f5f5;
+            text-transform: uppercase;
+        }
+
+        .delivery-table td, .delivery-table th {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .card-header-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+    </style>
+
+    <div class="column is-12-tablet is-10-desktop is-8-widescreen" style="margin: 20px;">
+        <h2 class="title is-3">Delivery Details</h2>
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">
+                    Order Information
+                </p>
+            </header>
+            <div class="card-content">
+                <div class="content detail-info">
+                    <p><strong>Order ID:</strong> {{ delivery.order.id }}</p>
+                    <p><strong>Customer Name:</strong> {{ delivery.order.customer.first_name }} {{ delivery.order.customer.last_name }}</p>
+                    <p><strong>Sales Date:</strong> {{ delivery.sales_date }}</p>
+                    <p><strong>Status:</strong> <span class="tag is-info">{{ delivery.status }}</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card delivery-table">
+            <header class="card-header">
+                <p class="card-header-title">
+                    Delivery Items
+                </p>
+            </header>
+            <div class="card-content">
+                <div class="content">
+                    <table class="table is-bordered is-fullwidth">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Expected Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in delivery.deliverydetails_set.all %}
+                                <tr>
+                                    <td>{{ item.product.name }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>{{ item.expected_date }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

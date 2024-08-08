@@ -1,0 +1,116 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block page_content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title">Update Product</h1>
+        <form method="POST" enctype="multipart/form-data" action="{% url 'product_update' object.pk %}">
+            {% csrf_token %}
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Category</label>
+                        <div class="control">
+                            {{ form.category }}
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Code</label>
+                        <div class="control">
+                            {{ form.code }}
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Barcode</label>
+                        <div class="control">
+                            {{ form.barcode }}
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Name</label>
+                        <div class="control">
+                            {{ form.name }}
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Description</label>
+                        <div class="control">
+                            {{ form.description }}
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Quantity Available</label>
+                        <div class="control">
+                            {{ form.quantity_available }}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Unit Price</label>
+                        <div class="control">
+                            {{ form.unit_price }}
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Packed Weight</label>
+                        <div class="control">
+                            {{ form.packed_weight }}
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Packed Height</label>
+                        <div class="control">
+                            {{ form.packed_height }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Packed Width</label>
+                        <div class="control">
+                            {{ form.packed_width }}
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Refrigerated</label>
+                        <div class="control">
+                            {{ form.refrigerated }}
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+
+            {% if form.errors %}
+                <div class="notification is-danger">
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <div class="field is-grouped">
+                <div class="control">
+                    <button type="submit" class="button is-primary"><i class="fas fa-save"></i>&nbsp;Save</button>
+                </div>
+                <div class="control">
+                    <a href="{% url 'product_warehouse' %}" class="button is-light"><i class="fas fa-arrow-left"></i>&nbsp;Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

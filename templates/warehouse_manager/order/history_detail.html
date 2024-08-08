@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title">Order Details - Order Code: {{ order.code}}</h1>
+        <p><strong>Date:</strong> {{ order.order_date }}</p>
+        
+        <p><strong>Status:</strong> {{ order.status }}</p>
+
+        <h2 class="subtitle">Order Items</h2>
+        <table class="table is-fullwidth">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    
+                    <th>Total Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.orderitem_set.all %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>Nle{{ item.product.unit_price }}</td>
+                <td>Nle{{ item.total_price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

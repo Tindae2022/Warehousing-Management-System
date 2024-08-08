@@ -1,0 +1,72 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+
+{% block page_content %}
+<div class="column is-12-tablet is-10-desktop is-8-widescreen">
+    <div class="columns is-multiline">
+        <div class="column is-full">
+    <div class="buttons are-medium">
+        <a href="#" class="button is-info">
+            <span class="icon">
+                <i class="fas fa-plus"></i>
+            </span>
+            <span>Add New Customer</span>
+        </a>
+        
+    </div>
+</div>
+
+
+        {% if sales_managers %}
+        <div class="column is-full" >
+            <table class="table is-bordered is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Phone Number</th>
+                         <th>Last Login </th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sales_manager in sales_managers %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        
+                        <td>{{ sales_manager.first_name }} {{ user.last_name }} </td>
+                        <td>{{sales_manager.email }}</td>
+                        <td>{{ sales_manager.user_type }}</td>
+                        <td>{{ sales_manager.phone_number }}</td>
+                        <td>{{ sales_manager.last_login }}</td>
+                        <td>
+                            <div class="button-group">
+                                <a href="#" class="button is-small is-danger jb-modal" data-target="sample-modal">
+                                    <span class="icon">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </span>
+                                </a>
+                                <a href="{% url 'user_update' sales_manager.pk %}" class="button is-small is-info">
+                                    <span class="icon">
+                                        <i class="fas fa-edit"></i>
+                                    </span>
+                                </a>
+                                <a href="#" class="button is-small is-primary">
+                                    <span class="icon">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_content %}
+    {% block style %}
+    <style>
+        body {
+            color: #333;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .cover-image {
+            max-height: 330px;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+        }
+
+        .cover-image img {
+            transition: transform 1s, filter 2s ease-in-out;
+            -webkit-transition: transform 1s, filter 2s ease-in-out;
+            transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+        }
+
+        .card:hover .cover-image img {
+            cursor: pointer;
+            transform: scale(1.2);
+            -webkit-transform: scale(1.2);
+        }
+
+        .is-overflow-hidden {
+            overflow: hidden !important;
+        }
+
+        .is-cursor-pointer {
+            cursor: pointer !important;
+        }
+
+        .is-tr-1 {
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .is-absolute {
+            position: absolute;
+        }
+
+        .is-circle {
+            border-radius: 50%;
+        }
+
+        .is-text-wide-1 {
+            letter-spacing: 0.1em !important;
+        }
+
+        .is-fill-white {
+            fill: #ffffff;
+        }
+
+        .w-6 {
+            width: 1.5rem !important;
+        }
+
+        .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .fixed-size {
+            width: 100%;
+            height: 200px; /* Adjust the height as needed */
+            object-fit: cover;
+        }
+
+        .button.is-navy-blue {
+            background-color: #001f3f;
+            color: white;
+        }
+
+        .button.is-navy-blue:hover {
+            background-color: #001737;
+        }
+    </style>
+    {% endblock %}
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <!-- Product Details -->
+                <div class="column is-8-desktop">
+                    <h1 class="h2 mb-5">{{ product.name }}</h1>
+                    <article class="card mb-4">
+                        <div class="post-slider">
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        </div>
+                        <div class="card-body">
+                            <ul class="card-meta list-inline">
+                                <li class="list-inline-item"><strong>Category:</strong> {{ product.category.name }}</li>
+                                <li class="list-inline-item"><strong>Price:</strong> ${{ product.unit_price }}</li>
+                                <li class="list-inline-item"><strong>Weight:</strong> {{ product.packed_weight }} kg</li>
+                                <li class="list-inline-item"><strong>Dimensions:</strong> {{ product.packed_height }} x {{ product.packed_width }} cm</li>
+                                <li class="list-inline-item"><strong>Refrigerated:</strong> {{ product.refrigerated|yesno:"Yes,No" }}</li>
+                                <li class="list-inline-item"><strong>Code:</strong> {{ product.code }}</li>
+                                <li class="list-inline-item"><strong>Barcode:</strong> {{ product.barcode }}</li>
+                            </ul>
+                            <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                <div class="field">
+                                    <label class="label">Quantity</label>
+                                    <div class="control">
+                                        {{ cart_product_form.quantity }}
+                                    </div>
+                                </div>
+                                {% csrf_token %}
+                                <div class="control">
+                                    <button type="submit" class="button is-link is-navy-blue">Add to cart</button>
+                                </div>
+                            </form>
+                            <p>{{ product.description }}</p>
+                        </div>
+                    </article>
+                </div>
+                
+                <!-- Related Products Sidebar -->
+                <aside class="column is-4-desktop">
+                    <div class="widget">
+                        <h4 class="widget-title">Related Products</h4>
+                        {% for related_product in related_products %}
+                        <article class="card mb-4">
+                            <div class="post-slider">
+                                <img src="{{ related_product.image.url }}" class="card-img-top" alt="{{ related_product.name }}">
+                            </div>
+                            <div class="card-body">
+                                <h3 class="mb-3"><a class="post-title" href="{% url 'product_detail' related_product.pk %}">{{ related_product.name }}</a></h3>
+                                <p>{{ related_product.description|truncatewords:20 }}</p>
+                                <a href="{% url 'product_detail' related_product.pk %}" class="btn btn-outline-primary">View Details</a>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

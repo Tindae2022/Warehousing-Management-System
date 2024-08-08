@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+Order Success
+{% endblock %}
+
+{% block page_content %}
+<section class="container my-5 text-center">
+<br>
+    <br>
+    <br>
+    <h1>Order Successful!</h1>
+    <p>Thank you for your order. It has been successfully placed. Your order code is <strong>{{ order.code }}</strong>.</p>
+</section>
+{% endblock %}

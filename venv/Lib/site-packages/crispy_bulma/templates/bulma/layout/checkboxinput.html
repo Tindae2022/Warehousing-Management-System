@@ -1,0 +1,15 @@
+{% load crispy_forms_bulma_field %}
+
+<div class="control">
+  <label {% if field.id_for_label %}for="{{ field.id_for_label }}" {% endif %}class="checkbox">
+    {% if field.errors %}
+        {% crispy_field field "class" "is-danger" %}
+    {% else %}
+        {% crispy_field field %}
+    {% endif %}
+    {{ field.label }}
+    {% if field.field.required %}
+      <span class="asterisk">*</span>
+    {% endif %}
+  </label>
+</div>
