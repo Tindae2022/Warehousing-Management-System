@@ -23,7 +23,7 @@ The Warehouse Management System is a comprehensive application designed to strea
 
 1. **Clone the repository**:
    ```
-   git clone your-repo-url
+   git clone [(https://github.com/Tindae2022/Warehousing-Management-System.git)]
    cd warehouse-management-system
    ```
 
